@@ -1,0 +1,41 @@
+
+
+
+while IFS=$"," read -r file
+do
+    name=`echo ${file} | cut -d '.' -f 1`
+    echo "Processing fasta file: ${name}..."
+
+	docker run --cpus=8 --memory=10g --memory-swap=-1 -v `pwd`:/home/meme --user `id -u`:`id -g` memesuite/memesuite streme --verbosity 1 --oc ./${name} --dna --time 14400 --minw 8 --maxw 30 --thresh 0.05 --align center --parse-genomic-coord --p ./${file} --nmotifs 100
+
+done < ./"1_files.csv"
+
+
+
+
+
+dir=/Users/cynthiacz/Desktop/1_FASTA
+
+docker run --cpus=8 --memory=10g --memory-swap=-1 -v `pwd`:/home/meme --user `id -u`:`id -g` memesuite/memesuite streme --verbosity 1 --oc ./folder --dna --totallength 4000000 --time 14400 --minw 8 --maxw 30 --thresh 0.05 --align center --parse-genomic-coord --p ./CLAMP_yw_male_2of3_ConsensusPeaks.chrX.fa.out --nmotifs 500
+
+
+
+
+
+
+
+
+
+
+
+
+# meme ${dir}/CLAMP_yw_male_2of3_ConsensusPeaks.autosomes.fa.out -dna \
+#     -oc ${dir}/CLAMP_yw_male_2of3_autosomes_100 \
+#     -nostatus -time 14400 \
+#     -mod zoops -nmotifs 100 -minw 6 -maxw 50 -objfun classic -revcomp -markov_order 0 -p 32
+
+
+docker run --cpus=8 --memory=10g --memory-swap=-1 -v `pwd`:/home/meme --user `id -u`:`id -g` memesuite/memesuite streme --verbosity 1 --oc ./CLAMP_deltaE-deltaE_male_2of3_ConsensusPeaks.chrX --dna --totallength 4000000 --time 14400 --minw 8 --maxw 30 --thresh 0.05 --align center --parse-genomic-coord --p CLAMP_deltaE-deltaE_male_2of3_ConsensusPeaks.chrX.fa.out --nmotifs 500 --np 8
+
+
+--cpus 10 myapp:latest -v `pwd`:/home/meme --user `id -u`:`id -g` memesuite/memesuite  meme CLAMP_deltaE-deltaE_male_2of3_ConsensusPeaks.chrX.fa.out -dna -oc ./CLAMP_deltaE-deltaE_male_2of3_ConsensusPeaks.chrX -nostatus -time 14400 -mod zoops -nmotifs 10 -minw 6 -maxw 50 -objfun classic -revcomp -markov_order 0 -p 10

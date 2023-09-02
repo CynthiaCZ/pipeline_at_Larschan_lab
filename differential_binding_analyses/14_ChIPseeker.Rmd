@@ -1,0 +1,118 @@
+---
+title: "ChIPseeker"
+output: html_document
+date: "2023-08-15"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+# Install and load required packages
+#if (!requireNamespace("BiocManager", quietly = TRUE))
+#  install.packages("BiocManager")
+
+#BiocManager::install("ChIPseeker")
+# BiocManager::install("TxDb.Dmelanogaster.UCSC.dm6.ensGene") 
+# BiocManager::install("org.Dm.eg.db")
+#BiocManager::install("GO.db")
+#BiocManager::install("HDO.db")
+#BiocManager::install("rtracklayer")
+# BiocManager::install("GenomicRanges", force = TRUE)
+
+library(ChIPseeker)
+library(org.Dm.eg.db)
+library(GO.db)
+library(HDO.db)
+library(TxDb.Dmelanogaster.UCSC.dm6.ensGene)
+library(rtracklayer)
+library(GenomicRanges)
+```
+
+
+```{r}
+# Load peak data (replace with your file path)
+#peak_file <- "path_to_your_peak_file.bed"
+peak_file <- "/Users/cynthiacz/Desktop/CnR_2023/DiffBind/tsv_files/MSL2_clampDH-clampDH_vs_yw_males_chrX_up_clean.tsv"
+peaks <- import.bed(peak_file)
+
+# seqnames	start	end	width	strand	V4	V5	annotation	geneChr	geneStart	geneEnd	geneLength	geneStrand	geneId	transcriptId	distanceToTSS	ENTREZID	SYMBOL	GENENAME
+# Annotate peaks
+txdb <- TxDb.Dmelanogaster.UCSC.dm6.ensGene
+peak_anno <- annotatePeak(peaks, tssRegion=c(-3000, 3000), TxDb=txdb, annoDb="org.Dm.eg.db")
+
+# View and save annotated peaks
+head(as.data.frame(peak_anno))
+write.table(peak_anno, file = "/Users/cynthiacz/Desktop/CnR_2023/DiffBind/annotated_peaks/test.tsv", sep = "\t", row.names = FALSE)
+
+ # Generate summary plots
+ 
+
+png(file="/Users/cynthiacz/Desktop/CnR_2023/DiffBind/ChIPseeker_plots/test2.png", width=6, height=3, units="in", pointsize=12, res=350)
+plotAnnoBar(peak_anno)
+dev.off()
+
+```
+
+
+```{r}
+dir <- "/Users/cynthiacz/Desktop/CnR_2023/DiffBind/"
+bed_dir <- "/Users/cynthiacz/Desktop/CnR_2023/DiffBind/tsv_files/"
+```
+
+
+```{r}
+# file names and paths
+ChIPseeker_input <- read.csv("/Users/cynthiacz/Desktop/CnR_2023/DiffBind/ChIPseeker_input.csv",  sep= ",")
+```
+
+
+```{r}
+# apply annotation to files
+peakAnnoList <- lapply(ChIPseeker_input, annotatePeak,
+                       TxDb=TxDb.Dmelanogaster.UCSC.dm6.ensGene,
+                       annoDb = "org.Dm.eg.db",
+                       tssRegion=c(-3000, 3000), verbose=FALSE)
+```
+
+
+```{r}
+csv_file <- file.path(bed_dir, "1_files_clean.csv")
+con <- file(csv_file, "r")
+
+while (length(line <- readLines(con, n = 1)) > 0) {
+  tryCatch({
+    fields <- strsplit(line, ",")[[1]]
+    name <- gsub("\\..*", "", fields[1])
+    base_name <- sub("_[^_]*$", "", name)
+    
+    cat(paste("Working on sample '", base_name, "'\n", sep = ""))
+    
+    peak_file <- paste(bed_dir, fields, sep = "")
+    peaks <- import.bed(peak_file)
+    
+    # Annotate peaks
+    txdb <- TxDb.Dmelanogaster.UCSC.dm6.ensGene
+    peak_anno <- annotatePeak(peaks, tssRegion=c(-3000, 3000), TxDb=txdb, annoDb="org.Dm.eg.db")
+    
+    # Save annotated peaks
+    outfile_name <- paste("/Users/cynthiacz/Desktop/CnR_2023/DiffBind/annotated_peaks/", base_name, ".tsv", sep = "")
+    write.table(peak_anno, file = outfile_name, sep = "\t", row.names = FALSE)
+    
+    # Plot
+    p <- plotAnnoBar(peak_anno, title = base_name)
+    plot_name <- paste("/Users/cynthiacz/Desktop/CnR_2023/DiffBind/ChIPseeker_plots/", base_name, ".png", sep = "")
+    png(file = plot_name, width = 6, height = 3 , units = "in", pointsize = 8, res = 350)
+    print(p)
+    dev.off()
+
+  }, error = function(e) {
+    # Error handling code
+    cat("Error occurred:", conditionMessage(e), "\n")
+    # Skip to the next iteration
+    return()
+  })
+}
+```
+
