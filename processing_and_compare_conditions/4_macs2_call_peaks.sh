@@ -1,20 +1,12 @@
-#!/bin/bash
-#SBATCH -J macs2_call_peaks
-#SBATCH -n 16
-#SBATCH -t 24:00:00
-#SBATCH --mem=32G
-#SBATCH -o logs/call_peaks-%A.out
-#SBATCH -e logs/call_peaks-%A.err
-#SBATCH --mail-type=ALL
-#SBATCH --mail-user=chengyue_zhang@brown.edu
+# This file contains a loop to run the MACS2 callpeak function 
+# on a series of bam files whose names are specified by 1_files_to_call_peaks.csv.
+# INPUT: UNMERGED bam files from different experimental conditions.
+# OUTPUT: narrowPeak files that contain the peaks identified by MACS2.
 
+# Tools and versions: macs/2.2.6
 
-module load anaconda/2022.05
-source /gpfs/runtime/opt/anaconda/2022.05/etc/profile.d/conda.sh
-conda activate macs2
-
-bam_dir=/users/czhang91/CnR_2023/bam_files_dedup_NO_MERGE
-out_dir=/users/czhang91/CnR_2023/macs2_peaks_NO_MERGE
+bam_dir=/path/to/UNMERGED/bam/files
+out_dir=/path/to/macs2/files
 
 while IFS=$"," read -r bam_file
 do

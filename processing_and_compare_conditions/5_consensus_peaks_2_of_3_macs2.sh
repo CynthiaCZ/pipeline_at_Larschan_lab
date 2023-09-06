@@ -1,16 +1,13 @@
-#!/bin/bash
-#SBATCH -J mspc
-#SBATCH -n 16
-#SBATCH -t 24:00:00
-#SBATCH --mem=32G
-#SBATCH -o /users/czhang91/CnR_2023/logs/mspc-%A.out
-#SBATCH -e /users/czhang91/CnR_2023/logs/mspc-%A.err
-#SBATCH --mail-type=ALL
-#SBATCH --mail-user=chengyue_zhang@brown.edu
+# This file contains a loop that uses MSPC to get consensus peaks from
+# replicates whose names are specified by 1_files_to_mspc.csv.
+# INPUT: narrowPeak files outputted from 4_macs2_call_peaks.sh.
+# OUTPUT: consensus peaks bed files that are shared by 2 out of 3 replicates.
 
-mspc_dir=/users/czhang91/CnR_2023/mspc
-in_dir=/users/czhang91/CnR_2023/macs2_peaks_NO_MERGE
-out_dir=/users/czhang91/CnR_2023/consensus_peaks/consensus_peaks_2_of_3
+# Tools and versions: mspc/6.0.1
+
+mspc_dir=/path/to/mspc
+in_dir=/path/to/narrowpeaks/files
+out_dir=/path/to/consensus/peaks/files
 
 while IFS=$"," read -r condition
 do
@@ -28,6 +25,4 @@ do
 done < ${in_dir}/"1_files_to_mspc.csv"
 
 echo "Done!"
-
-
-# -c 2 indicates how many sample you want the peak to appear in
+# -c 2 to include 2 samples

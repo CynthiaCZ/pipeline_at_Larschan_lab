@@ -1,18 +1,13 @@
-#!/bin/bash
-#SBATCH -J bam_to_bigwig
-#SBATCH -n 32
-#SBATCH --mem=32G
-#SBATCH -t 6:00:00
-#SBATCH -o /users/czhang91/CnR_2023/logs/compare_cond-%A.out
-#SBATCH -e /users/czhang91/CnR_2023/logs/compare_cond-%A.err
-#SBATCH --mail-type=ALL
-#SBATCH --mail-user=chengyue_zhang@brown.edu
+# This file contains a loop that uses the deeptools bamCoverage function
+# to convert bam files specified by 1_files_to_convert.csv to bigwig files.
+# INPUT: deduplicated bam files outputted from 2_bam_dedup_merged.sh.
+# OUTPUT: bigwig files converted from bam files.
 
-module load deeptools/3.2.1 python/2.7.12 matplotlib/2.2.4 pysam/0.15.2 py2bit/0.3.0 numpydoc/0.9.1 pybigwig/0.3.15 plotly/3.9.0 deeptoolsintervals/0.1.7
+# Tools and versions: deeptools/3.2.1
 
-bam_dir=/users/czhang91/CnR_2023/bam_files_dedup
-genome_dir=/users/czhang91/CnR_2023/genome
-out_dir=/users/czhang91/CnR_2023/bigwig_files
+bam_dir=/path/to/deduplicated/bam/files
+genome_dir=/path/to/blacklist/genome
+out_dir=/path/to/bigwig/files
 
 while IFS=$"," read -r line
 do
@@ -30,6 +25,6 @@ do
     --exactScaling \
     --ignoreDuplicates \
     --numberOfProcessors 32
-done < ${bam_dir}/"1_files.csv"
+done < ${bam_dir}/"1_files_to_convert.csv"
 
 echo "Done!"
