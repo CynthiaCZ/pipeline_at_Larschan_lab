@@ -47,8 +47,10 @@ The project uses the following tools and packages:
 * [deeptools/3.2.1](https://github.com/deeptools/deepTools)
 * [MACS2/2.2.6](https://hbctraining.github.io/Intro-to-ChIPseq/lessons/05_peak_calling_macs.html)
 * [MSPC/6.0.1](https://genometric.github.io/MSPC/)
-
-
+* [bedtools/2.26.0](https://bedtools.readthedocs.io/en/latest/)
+* [meme/5.0.5](https://meme-suite.org/meme/tools/meme)
+* [memesuite/5.5.4](https://meme-suite.org/meme/)
+* [homer/4.10](http://homer.ucsd.edu/homer/motif/)
 
 <!-- SECTIONS -->
 ## Sections
@@ -65,8 +67,8 @@ For a more complete description of what each code file does, please refer to the
   <li> 6_compare_conditions.sh: calls deepTools computeMatrix to get the peaks from the consensus peaks bed files that appear at the genomic positions specified by the bigwig files.
   Then plots the matrix output with the deepTools plotHeatmap function. </li> 
   <ul>
-    <li> 6.1_heatmap_example.png: example output of 6_compare_conditions.sh </li> 
-    <li> 6.2_heatmap_example_ChrX_vs_autosome.png: example output of 6_compare_conditions.sh </li> 
+    <li> 6a_heatmap_example.png: example output of 6_compare_conditions.sh </li> 
+    <li> 6b_heatmap_example_ChrX_vs_autosome.png: example output of 6_compare_conditions.sh </li> 
   </ul>
 </ul>
 
@@ -74,20 +76,45 @@ For a more complete description of what each code file does, please refer to the
 <ul>
   <li> 7_plot_PCA.sh: calls deepTools multiBamSummary and multiBigwigSummary. Then uses plotPCA to visualize the results
     <ul>
-    <li> 7.1_PCA_by_sample.png: example output of 7_plot_PCA.sh </li> 
-    <li> 7.1_PCA_by_condition.png: example output of 7_plot_PCA.sh </li> 
+    <li> 7a_PCA_by_sample.png: example output of 7_plot_PCA.sh </li> 
+    <li> 7b_PCA_by_condition.png: example output of 7_plot_PCA.sh </li> 
   </ul>
 </ul>
 
 ### Motif Calling
-Input: \
-Code Files: \
-Output: 
+<ul>
+  <li> 8_separate_X.sh: uses grep to separate chromosome X and autosomes in bed files </li>
+  <li> 9.1_get_fasta_for_meme.sh: uses bedtools to convert bed files to fasta files </li>
+  <li> 9.2_meme.sh: uses MEME to identify top 100 reoccurring motifs </li>
+    <ul>
+    <li> 9a_meme_motif_example.png: part of example html output of 9.3_meme.sh </li> 
+  </ul>
+  <li> 10_streme.sh: uses STREME to identify top 100 reoccurring motifs </li>
+    <ul>
+    <li> 10a_streme_motif_example.png: part of example html output of 10_streme.sh </li> 
+  </ul>
+  <li> 11_homer.sh: uses HOMER to identify top 100 reoccurring motifs </li>
+  <ul>
+    <li> 11a_homer_motif_example.png: part of example html output of 11_homer.sh </li> 
+  </ul>
+</ul>
 
 ### Differential Peak Analysis
-Input: \
-Code Files: \
-Output: 
+<ul>
+  <li> 12_DiffBind.Rmd: uses DiffBind to compute differentially bound sites of pairs of conditions </li>
+    <ul>
+    <li> 12a_diffbind_input_config.csv: configuration file with file handles
+    <li> 12b_volcano_plot_example.png: example output of 12_DiffBind.sh </li> 
+  </ul>
+  <li> 10_streme.sh: uses STREME to identify top 100 reoccurring motifs </li>
+    <ul>
+    <li> 10a_streme_motif_example.png: part of example html output of 10_streme.sh </li> 
+  </ul>
+  <li> 11_homer.sh: uses HOMER to identify top 100 reoccurring motifs </li>
+  <ul>
+    <li> 11a_homer_motif_example.png: part of example html output of 11_homer.sh </li> 
+  </ul>
+</ul>
 
 ### RNA-seq CUT&RUN compare
 Input: \

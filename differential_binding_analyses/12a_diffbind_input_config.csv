@@ -1,0 +1,7 @@
+SampleID,Tissue,Condition,Treatment,Replicate,bamReads,Peaks,PeakCaller
+MSL2_clampDH-clampDH_male_1,salivary-gland,msl2,no-treatment,1,/path/to/bam_files_dedup_NO_MERGE/MSL2_clampDH-clampDH_male_1_sort_byposition.dedup.bam,/path/to/macs2_peaks_NO_MERGE/MSL2_clampDH-clampDH_male_1_sort_byposition_peaks.narrowPeak,narrowPeak
+MSL2_clampDH-clampDH_male_2,salivary-gland,msl2,no-treatment,2,/path/to/bam_files_dedup_NO_MERGE/MSL2_clampDH-clampDH_male_2_sort_byposition.dedup.bam,/path/to/macs2_peaks_NO_MERGE/MSL2_clampDH-clampDH_male_2_sort_byposition_peaks.narrowPeak,narrowPeak
+MSL2_clampDH-clampDH_male_3,salivary-gland,msl2,no-treatment,3,/path/to/bam_files_dedup_NO_MERGE/MSL2_clampDH-clampDH_male_3_sort_byposition.dedup.bam,/path/to/macs2_peaks_NO_MERGE/MSL2_clampDH-clampDH_male_3_sort_byposition_peaks.narrowPeak,narrowPeak
+MSL2_yw_male_1,salivary-gland,wt,no-treatment,1,/path/to/bam_files_dedup_NO_MERGE/MSL2_yw_male_1_sort_byposition.dedup.bam,/path/to/macs2_peaks_NO_MERGE/MSL2_yw_male_1_sort_byposition_peaks.narrowPeak,narrowPeak
+MSL2_yw_male_2,salivary-gland,wt,no-treatment,2,/path/to/bam_files_dedup_NO_MERGE/MSL2_yw_male_2_sort_byposition.dedup.bam,/path/to/macs2_peaks_NO_MERGE/MSL2_yw_male_2_sort_byposition_peaks.narrowPeak,narrowPeak
+MSL2_yw_male_3,salivary-gland,wt,no-treatment,3,/path/to/bam_files_dedup_NO_MERGE/MSL2_yw_male_3_sort_byposition.dedup.bam,/path/to/macs2_peaks_NO_MERGE/MSL2_yw_male_3_sort_byposition_peaks.narrowPeak,narrowPeak
