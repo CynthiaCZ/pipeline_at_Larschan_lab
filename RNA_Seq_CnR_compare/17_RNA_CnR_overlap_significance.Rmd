@@ -9,13 +9,19 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
+# The following code calculates the statistical significance of the overlaps between RNA-seq genes and annotated genes from CUT&RUN using the GeneOverlap library
+# INPUT: RNA-seq data, annotated peaks tsv files outputted from 14_ChIPseeker.Rmd
+# OUTPUT: printed output of number genes in RNA-seq data and in annotated peaks, number of overlaps between the two, p-values as well as other information (see example output png)
+```
+
+```{r}
 # BiocManager::install("GeneOverlap")
 library(GeneOverlap)
 ```
 
 ```{r}
-RNA_dir <- '/Users/cynthiacz/Desktop/CnR_2023/RNA_seq'
-CnR_dir <- '/Users/cynthiacz/Desktop/CnR_2023/DiffBind/annotated_peaks'
+RNA_dir <- '/path/to/RNA_seq/data'
+CnR_dir <- '/path/to/annotated_peaks'
 ```
 
 ```{r}
@@ -53,107 +59,143 @@ nrow(clampDH_yw_RNA_up)
 CLAMP_deltaDE_vs_yw_A_CnR_down_RNA_down <- testGeneOverlap(newGeneOverlap(unique(clampDE_yw_RNA_down$row),
                          unique(CLAMP_deltaDE_vs_yw_A_down$geneId),
                          genome.size=17588))
-CLAMP_deltaDE_vs_yw_A_CnR_down_RNA_down
+print('CLAMP_deltaDE_vs_yw_A_CnR_down_RNA_down:')
+print(CLAMP_deltaDE_vs_yw_A_CnR_down_RNA_down)
+
+print('------------------------------------------------------')
 
 CLAMP_deltaDE_vs_yw_A_CnR_down_RNA_up <- testGeneOverlap(newGeneOverlap(unique(clampDE_yw_RNA_up$row),
                          unique(CLAMP_deltaDE_vs_yw_A_down$geneId),
                          genome.size=17588))
-CLAMP_deltaDE_vs_yw_A_CnR_down_RNA_up
+print('CLAMP_deltaDE_vs_yw_A_CnR_down_RNA_up:')
+print(CLAMP_deltaDE_vs_yw_A_CnR_down_RNA_up)
 ```
 ```{r}
 CLAMP_deltaDE_vs_yw_X_CnR_down_RNA_down <- testGeneOverlap(newGeneOverlap(unique(clampDE_yw_RNA_down$row),
                          unique(CLAMP_deltaDE_vs_yw_X_down$geneId),
                          genome.size=17588))
-CLAMP_deltaDE_vs_yw_X_CnR_down_RNA_down
+print('CLAMP_deltaDE_vs_yw_X_CnR_down_RNA_down')
+print(CLAMP_deltaDE_vs_yw_X_CnR_down_RNA_down)
+
+print('------------------------------------------------------')
 
 CLAMP_deltaDE_vs_yw_X_CnR_down_RNA_up <- testGeneOverlap(newGeneOverlap(unique(clampDE_yw_RNA_up$row),
                          unique(CLAMP_deltaDE_vs_yw_X_down$geneId),
                          genome.size=17588))
-CLAMP_deltaDE_vs_yw_X_CnR_down_RNA_up
+print('CLAMP_deltaDE_vs_yw_X_CnR_down_RNA_up')
+print(CLAMP_deltaDE_vs_yw_X_CnR_down_RNA_up)
 ```
 
 ```{r}
 MSL2_clampDE_vs_yw_A_CnR_up_RNA_down <- testGeneOverlap(newGeneOverlap(unique(clampDE_yw_RNA_down$row),
                          unique(MSL2_clampDE_vs_yw_A_up$geneId),
                          genome.size=17588))
-MSL2_clampDE_vs_yw_A_CnR_up_RNA_down
+print('MSL2_clampDE_vs_yw_A_CnR_up_RNA_down')
+print(MSL2_clampDE_vs_yw_A_CnR_up_RNA_down)
+
+print('------------------------------------------------------')
 
 MSL2_clampDE_vs_yw_A_CnR_up_RNA_up <- testGeneOverlap(newGeneOverlap(unique(clampDE_yw_RNA_up$row),
                          unique(MSL2_clampDE_vs_yw_A_up$geneId),
                          genome.size=17588))
-MSL2_clampDE_vs_yw_A_CnR_up_RNA_up
+print('MSL2_clampDE_vs_yw_A_CnR_up_RNA_up')
+print(MSL2_clampDE_vs_yw_A_CnR_up_RNA_up)
 ```
 
 ```{r}
 MSL2_clampDE_vs_yw_X_CnR_up_RNA_down <- testGeneOverlap(newGeneOverlap(unique(clampDE_yw_RNA_down$row),
                          unique(MSL2_clampDE_vs_yw_X_up$geneId),
                          genome.size=17588))
-MSL2_clampDE_vs_yw_X_CnR_up_RNA_down
+print('MSL2_clampDE_vs_yw_X_CnR_up_RNA_down')
+print(MSL2_clampDE_vs_yw_X_CnR_up_RNA_down)
+
+print('------------------------------------------------------')
 
 MSL2_clampDE_vs_yw_X_CnR_up_RNA_up <- testGeneOverlap(newGeneOverlap(unique(clampDE_yw_RNA_up$row),
                          unique(MSL2_clampDE_vs_yw_X_up$geneId),
                          genome.size=17588))
-MSL2_clampDE_vs_yw_X_CnR_up_RNA_up
+print('MSL2_clampDE_vs_yw_X_CnR_up_RNA_up')
+print(MSL2_clampDE_vs_yw_X_CnR_up_RNA_up)
 ```
 
 ```{r}
 CLAMP_deltaDH_vs_yw_A_CnR_down_RNA_down <- testGeneOverlap(newGeneOverlap(unique(clampDH_yw_RNA_down$row),
                          unique(CLAMP_deltaH_vs_yw_A_down$geneId),
                          genome.size=17588))
-CLAMP_deltaDH_vs_yw_A_CnR_down_RNA_down
+print('CLAMP_deltaDH_vs_yw_A_CnR_down_RNA_down')
+print(CLAMP_deltaDH_vs_yw_A_CnR_down_RNA_down)
+
+print('------------------------------------------------------')
 
 CLAMP_deltaDH_vs_yw_A_CnR_down_RNA_up <- testGeneOverlap(newGeneOverlap(unique(clampDH_yw_RNA_up$row),
                          unique(CLAMP_deltaH_vs_yw_A_down$geneId),
                          genome.size=17588))
-CLAMP_deltaDH_vs_yw_A_CnR_down_RNA_up
+print('CLAMP_deltaDH_vs_yw_A_CnR_down_RNA_up')
+print(CLAMP_deltaDH_vs_yw_A_CnR_down_RNA_up)
 ```
 
 ```{r}
 CLAMP_deltaDH_vs_yw_X_CnR_down_RNA_down <- testGeneOverlap(newGeneOverlap(unique(clampDH_yw_RNA_down$row),
                          unique(CLAMP_deltaH_vs_yw_X_down$geneId),
                          genome.size=17588))
-CLAMP_deltaDH_vs_yw_X_CnR_down_RNA_down
+print('CLAMP_deltaDH_vs_yw_X_CnR_down_RNA_down')
+print(CLAMP_deltaDH_vs_yw_X_CnR_down_RNA_down)
+
+print('------------------------------------------------------')
 
 CLAMP_deltaDH_vs_yw_X_CnR_down_RNA_up <- testGeneOverlap(newGeneOverlap(unique(clampDH_yw_RNA_up$row),
                          unique(CLAMP_deltaH_vs_yw_X_down$geneId),
                          genome.size=17588))
-CLAMP_deltaDH_vs_yw_X_CnR_down_RNA_up
+print('CLAMP_deltaDH_vs_yw_X_CnR_down_RNA_up')
+print(CLAMP_deltaDH_vs_yw_X_CnR_down_RNA_up)
 ```
 
 ```{r}
 MSL2_clampDH_vs_yw_A_CnR_down_RNA_down <- testGeneOverlap(newGeneOverlap(unique(clampDH_yw_RNA_down$row),
                          unique(MSL2_clampDH_vs_yw_A_down$geneId),
                          genome.size=17588))
-MSL2_clampDH_vs_yw_A_CnR_down_RNA_down
+print('MSL2_clampDH_vs_yw_A_CnR_down_RNA_down')
+print(MSL2_clampDH_vs_yw_A_CnR_down_RNA_down)
+
+print('------------------------------------------------------')
 
 MSL2_clampDH_vs_yw_A_CnR_down_RNA_up <- testGeneOverlap(newGeneOverlap(unique(clampDH_yw_RNA_up$row),
                          unique(MSL2_clampDH_vs_yw_A_down$geneId),
                          genome.size=17588))
-MSL2_clampDH_vs_yw_A_CnR_down_RNA_up
+print('MSL2_clampDH_vs_yw_A_CnR_down_RNA_up')
+print(MSL2_clampDH_vs_yw_A_CnR_down_RNA_up)
 ```
 
 ```{r}
 MSL2_clampDH_vs_yw_A_CnR_up_RNA_down <- testGeneOverlap(newGeneOverlap(unique(clampDH_yw_RNA_down$row),
                          unique(MSL2_clampDH_vs_yw_A_up$geneId),
                          genome.size=17588))
-MSL2_clampDH_vs_yw_A_CnR_up_RNA_down
+print('MSL2_clampDH_vs_yw_A_CnR_up_RNA_down')
+print(MSL2_clampDH_vs_yw_A_CnR_up_RNA_down)
+
+print('------------------------------------------------------')
 
 MSL2_clampDH_vs_yw_A_CnR_up_RNA_up <- testGeneOverlap(newGeneOverlap(unique(clampDH_yw_RNA_up$row),
                          unique(MSL2_clampDH_vs_yw_A_up$geneId),
                          genome.size=17588))
-MSL2_clampDH_vs_yw_A_CnR_up_RNA_up
+print('MSL2_clampDH_vs_yw_A_CnR_up_RNA_up')
+print(MSL2_clampDH_vs_yw_A_CnR_up_RNA_up)
 ```
 
 ```{r}
 MSL2_clampDH_vs_yw_X_CnR_up_RNA_down <- testGeneOverlap(newGeneOverlap(unique(clampDH_yw_RNA_down$row),
                          unique(MSL2_clampDH_vs_yw_X_up$geneId),
                          genome.size=17588))
-MSL2_clampDH_vs_yw_X_CnR_up_RNA_down
+print('MSL2_clampDH_vs_yw_X_CnR_up_RNA_down')
+print(MSL2_clampDH_vs_yw_X_CnR_up_RNA_down)
+
+print('------------------------------------------------------')
 
 MSL2_clampDH_vs_yw_X_CnR_up_RNA_up <- testGeneOverlap(newGeneOverlap(unique(clampDH_yw_RNA_up$row),
                          unique(MSL2_clampDH_vs_yw_X_up$geneId),
                          genome.size=17588))
-MSL2_clampDH_vs_yw_X_CnR_up_RNA_up
+print('MSL2_clampDH_vs_yw_X_CnR_up_RNA_up')
+print(MSL2_clampDH_vs_yw_X_CnR_up_RNA_up)
 ```
 
 

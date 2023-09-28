@@ -6,29 +6,28 @@ output: html_document
 ---
 
 ```{r}
+# The following example code computes differentially bound sites of a pair of conditions using the DiffBind library
+# INPUT: bam files from 1_bam_dedup_unmerged.sh, narrowpeak files from 4_macs2_call_peaks.sh
+# OUTPUT: differential peaks tsv file, volcano plot (see example output png file)
+```
+
+```{r}
 #if (!require("BiocManager", quietly = TRUE))
 #    install.packages("BiocManager")
 #BiocManager::install("DiffBind",force = TRUE)
 #BiocManager::install("magrittr",type="source",force = TRUE)
-```
 
-
-```{r}
 library(DiffBind)
 library(magrittr)
 ```
 
 
 ```{r}
-# The following example code computes differentially bound sites of a pair of conditions
-# INPUT: bam files from 1_bam_dedup_unmerged.sh, narrowpeak files from 4_macs2_call_peaks.sh
-# OUTPUT: differential peaks tsv file, volcano plot (see example png file)
-
 # Diffbind for MSL2 clampDH-clampDH vs yw males
 
 # read in input configuration
 # the configuration file contains file paths to input files (peaks to compare)
-df <- read.csv('path/to/12a_diffbind_input_config.csv')
+df <- read.csv('path/to/12a_DiffBind_input_config.csv')
 sample.df <- dba(sampleSheet=df)
 
 # sanity check 

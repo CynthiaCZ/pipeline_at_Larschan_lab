@@ -19,22 +19,17 @@
         <li><a href="#RNA-seq-CUT&RUN-compare">RNA-seq CUT&RUN compare</a></li>
       </ul>
     </li>
-    <li><a href="#summary-and-acknowledgments">Summary and Acknowledgments</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 
 
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
+This GitHub repository hosts a comprehensive bioinformatics pipeline tailored for the analysis of CUT&RUN data. The pipeline encompasses a series of crucial analyses, including principal component analysis (PCA), motif searches, differential binding analysis, and comparative analysis with RNA-seq data.
+
 ### Workflow Chart
 ![Workflow][workflow_chart]
-
-### Code and Output
-* Each code file has a number in its file name. That number refers to the step number in the workflow chart
-* Since the data that is being used here is unpublished, the in and out file paths are simply place holders
-* Sample outputs, e.g. plots are included in each section folder
-
-
 
 ### Tools and Versions
 
@@ -54,8 +49,7 @@ The project uses the following tools and packages:
 
 <!-- SECTIONS -->
 ## Sections
-Each section, as shown by the colored rectangles in the workflow chart above, contains one or several steps. The number in the file names at each step refers to the step number in the workflow chart.
-For a more complete description of what each code file does, please refer to the comment block at the beginning of each script.
+The pipeline is organized into sections, delineated by colored rectangles in the workflow chart. Each section encapsulates one or more essential steps, with file names indicating their corresponding step numbers as illustrated in the workflow chart. For detailed explanations of individual code files, please refer to the comment block at the beginning of each script. Although the data used in the analyses remains unpublished, sample outputs such as plots are included in each section folder.
 
 ### Processing and Compare Conditions
 <ul>
@@ -74,7 +68,7 @@ For a more complete description of what each code file does, please refer to the
 
 ### PCA
 <ul>
-  <li> 7_plot_PCA.sh: calls deepTools multiBamSummary and multiBigwigSummary. Then uses plotPCA to visualize the results
+  <li> 7_plot_PCA.sh: calls deepTools multiBamSummary and multiBigwigSummary. Then uses deepTools plotPCA to visualize the results
     <ul>
     <li> 7a_PCA_by_sample.png: example output of 7_plot_PCA.sh </li> 
     <li> 7b_PCA_by_condition.png: example output of 7_plot_PCA.sh </li> 
@@ -106,25 +100,35 @@ For a more complete description of what each code file does, please refer to the
     <li> 12a_diffbind_input_config.csv: configuration file with file handles
     <li> 12b_volcano_plot_example.png: example output of 12_DiffBind.sh </li> 
   </ul>
-  <li> 10_streme.sh: uses STREME to identify top 100 reoccurring motifs </li>
-    <ul>
-    <li> 10a_streme_motif_example.png: part of example html output of 10_streme.sh </li> 
-  </ul>
-  <li> 11_homer.sh: uses HOMER to identify top 100 reoccurring motifs </li>
+  <li> 13_clean_diffbind_tsv.ipynb: gets significant differential binding and separate each the peaks by chrX/autosomes and up/down regulated </li>
+  <li> 14_ChIPseeker.Rmd: uses ChIPseeker to annotate differential binding peaks and plots the result </li>
   <ul>
-    <li> 11a_homer_motif_example.png: part of example html output of 11_homer.sh </li> 
+    <li> 14a_chipseeker_barplot_example.png: example output of 14_ChIPseeker.Rmd </li> 
+  </ul>
+  <li> 15_clusterProfiler.Rmd: performs gene ontology enrichment on the annotated genes using the clusterProfiler library and plots the results
+  <ul>
+    <li> 15a_clusterProfiler_dotplot_example.png: example output of the dotplot function 15_clusterProfiler.Rmd </li> 
+    <li> 15b_clusterProfiler_goplot_example.png: example output of the goplot function 15_clusterProfiler.Rmd </li> 
+    <li> 15a_clusterProfiler_plotGOgraph_example.png: example output of the plotGOgraph function 15_clusterProfiler.Rmd </li> 
   </ul>
 </ul>
 
 ### RNA-seq CUT&RUN compare
-Input: \
-Code Files: \
-Output: 
+<ul>
+  <li> 16_RNAseq_CnR_compare.ipynb: calculates the number of overlaps between RNA-seq genes and annotated genes from CUT&RUN using pandas, and then plot them as venn diagrams using matplotlib_venn
+  <ul>
+    <li> 16a_venn_example_output.png: example output of 16_RNAseq_CnR_compare.ipynb </li> 
+  </ul>
+  <li> 17_RNA_CnR_overlap_significance.Rmd: calculates the statistical significance of the overlaps between RNA-seq genes and annotated genes from CUT&RUN using the GeneOverlap library
+  <ul>
+    <li> 17a_GeneOverlap_example_output.png: example output of 17_RNA_CnR_overlap_significance.Rmd </li> 
+  </ul>
+</ul>
 
 
 <!-- SUMMARY -->
-## Summary and Acknowledgments
-
+## Acknowledgments
+The development of this codebase was made possible as a result of the author's participation in the Larschan Lab at Brown University. The author wishes to express gratitude to the lab members for their invaluable guidance and support throughout the project. Their collective expertise and insights significantly contributed to this work.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 [workflow_chart]: ./workflow_chart.png

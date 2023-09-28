@@ -9,10 +9,17 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
+# The following code performs gene ontology enrichment on the annotated genes using the clusterProfiler library
+# INPUT: annotated peaks tsv files from 14_ChIPseeker.Rmd
+# OUTPUT: gene ontology enrichment result; goplot, plotGOgraph, and dotplot output plots (see example output png files)
+```
+
+```{r}
 # BiocManager::install("clusterProfiler")
 # BiocManager::install("topGO")
 # BiocManager::install("Rgraphviz")
 # BiocManager::install("enrichplot")
+# BiocManager::install("org.Dm.eg.db")
 
 library(clusterProfiler)
 library(topGO)
@@ -22,34 +29,13 @@ library(org.Dm.eg.db)
 ```
 
 ```{r} 
-in_dir <- "/Users/cynthiacz/Desktop/CnR_2023/DiffBind/annotated_peaks"
-out_dir <- "/Users/cynthiacz/Desktop/CnR_2023/DiffBind/enrichGO/"
-plot_dir <- "/Users/cynthiacz/Desktop/CnR_2023/DiffBind/enrichGO_plots/"
+in_dir <- "/path/to/annotated/peaks/"
+out_dir <- "/path/to/output/"
+plot_dir <- "/path/to/output/plots/"
 ```
 
 ```{r}
-csv_file <- file.path(in_dir, "1_files.csv")
-con <- file(csv_file, "r")
-
-while (length(line <- readLines(con, n = 1)) > 0) {
-    fields <- strsplit(line, ",")[[1]]
-    base_name <- gsub("\\..*", "", fields[1])
-    cat(paste("Working on sample '", base_name, "'\n", sep = ""))
-
-    # enrichGO
-    annotated_peaks<-read.delim(file.path(in_dir, fields), sep="\t")
-    
-    ego <- enrichGO(gene = annotated_peaks$ENTREZID,
-                OrgDb = org.Dm.eg.db,
-                ont = "ALL")
-    outfile_name <- paste(out_dir, base_name, ".GO.tsv", sep = "")
-    write.table(ego, file = outfile_name, sep = "\t", row.names = FALSE)
-}
-```
-
-
-```{r}
-csv_file <- file.path(in_dir, "1_files.csv")
+csv_file <- file.path(in_dir, "1_files_to_profile.csv")
 con <- file(csv_file, "r")
 
 while (length(line <- readLines(con, n = 1)) > 0) {
@@ -58,8 +44,7 @@ while (length(line <- readLines(con, n = 1)) > 0) {
     base_name <- gsub("\\..*", "", fields[1])
     cat(paste("Working on sample '", base_name, "'\n", sep = ""))
 
-    # enrichGO
-    # BP
+    # biological process (BP)
     annotated_peaks<-read.delim(file.path(in_dir, fields), sep="\t")
     
     ego_BP <- enrichGO(gene = annotated_peaks$ENTREZID,
@@ -68,16 +53,16 @@ while (length(line <- readLines(con, n = 1)) > 0) {
     outfile_name <- paste(out_dir, base_name, ".GO_BP.tsv", sep = "")
     write.table(ego_BP, file = outfile_name, sep = "\t", row.names = FALSE)
     
-    # p <- goplot(ego_BP)
-    # goplot_name <- paste(plot_dir, "goplot/", base_name, ".goplot_BP.png", sep = "")
-    # png(file = goplot_name, width = 10, height = 10 , units = "in", pointsize = 8, res = 350)
-    # print(p)
-    # dev.off()
-    # 
-    # plotGOgraph_name <- paste(plot_dir, "plotGOgraph/", base_name, ".plotGOgraph_BP.png", sep = "")
-    # png(file = plotGOgraph_name, width = 8, height = 6, units = "in", pointsize = 10, res = 1000)
-    # plotGOgraph(ego_BP)
-    # dev.off()
+    p <- goplot(ego_BP)
+    goplot_name <- paste(plot_dir, "goplot/", base_name, ".goplot_BP.png", sep = "")
+    png(file = goplot_name, width = 10, height = 10 , units = "in", pointsize = 8, res = 350)
+    print(p)
+    dev.off()
+
+    plotGOgraph_name <- paste(plot_dir, "plotGOgraph/", base_name, ".plotGOgraph_BP.png", sep = "")
+    png(file = plotGOgraph_name, width = 8, height = 6, units = "in", pointsize = 10, res = 1000)
+    plotGOgraph(ego_BP)
+    dev.off()
 
     p <- dotplot(ego_BP, title = paste(base_name, "_BP", sep = ""))
     dotplot_name <- paste(plot_dir, "dotplot/", base_name, ".dotplot_BP.png", sep = "")
@@ -85,23 +70,23 @@ while (length(line <- readLines(con, n = 1)) > 0) {
     print(p)    
     dev.off()
     
-    # MF
+    # molecular function (MF)
     ego_MF <- enrichGO(gene = annotated_peaks$ENTREZID,
                 OrgDb = org.Dm.eg.db,
                 ont = "MF")
     outfile_name <- paste(out_dir, base_name, ".GO_MF.tsv", sep = "")
     write.table(ego_MF, file = outfile_name, sep = "\t", row.names = FALSE)
     
-    # p <- goplot(ego_MF)
-    # goplot_name <- paste(plot_dir, "goplot/", base_name, ".goplot_MF.png", sep = "")
-    # png(file = goplot_name, width = 10, height = 10 , units = "in", pointsize = 8, res = 350)
-    # print(p)
-    # dev.off()
-    # 
-    # plotGOgraph_name <- paste(plot_dir, "plotGOgraph/", base_name, ".plotGOgraph_MF.png", sep = "")
-    # png(file = plotGOgraph_name, width = 8, height = 6, units = "in", pointsize = 10, res = 1000)
-    # plotGOgraph(ego_MF)
-    # dev.off()
+    p <- goplot(ego_MF)
+    goplot_name <- paste(plot_dir, "goplot/", base_name, ".goplot_MF.png", sep = "")
+    png(file = goplot_name, width = 10, height = 10 , units = "in", pointsize = 8, res = 350)
+    print(p)
+    dev.off()
+
+    plotGOgraph_name <- paste(plot_dir, "plotGOgraph/", base_name, ".plotGOgraph_MF.png", sep = "")
+    png(file = plotGOgraph_name, width = 8, height = 6, units = "in", pointsize = 10, res = 1000)
+    plotGOgraph(ego_MF)
+    dev.off()
 
     p <- dotplot(ego_MF, title = paste(base_name, "_MF", sep = ""))
     dotplot_name <- paste(plot_dir, "dotplot/", base_name, ".dotplot_MF.png", sep = "")
@@ -110,23 +95,23 @@ while (length(line <- readLines(con, n = 1)) > 0) {
     dev.off()
 
     
-    # CC
+    # cellular component (CC).
     ego_CC <- enrichGO(gene = annotated_peaks$ENTREZID,
                 OrgDb = org.Dm.eg.db,
                 ont = "CC")
     outfile_name <- paste(out_dir, base_name, ".GO_CC.tsv", sep = "")
     write.table(ego_CC, file = outfile_name, sep = "\t", row.names = FALSE)
 
-    # p <- goplot(ego_CC)
-    # goplot_name <- paste(plot_dir, "goplot/", base_name, ".goplot_CC.png", sep = "")
-    # png(file = goplot_name, width = 10, height = 10 , units = "in", pointsize = 8, res = 350)
-    # print(p)
-    # dev.off()
-    # 
-    # plotGOgraph_name <- paste(plot_dir, "plotGOgraph/", base_name, ".plotGOgraph_CC.png", sep = "")
-    # png(file = plotGOgraph_name, width = 8, height = 6, units = "in", pointsize = 10, res = 1000)
-    # plotGOgraph(ego_CC)
-    # dev.off()
+    p <- goplot(ego_CC)
+    goplot_name <- paste(plot_dir, "goplot/", base_name, ".goplot_CC.png", sep = "")
+    png(file = goplot_name, width = 10, height = 10 , units = "in", pointsize = 8, res = 350)
+    print(p)
+    dev.off()
+
+    plotGOgraph_name <- paste(plot_dir, "plotGOgraph/", base_name, ".plotGOgraph_CC.png", sep = "")
+    png(file = plotGOgraph_name, width = 8, height = 6, units = "in", pointsize = 10, res = 1000)
+    plotGOgraph(ego_CC)
+    dev.off()
     
     p <- dotplot(ego_CC, title = paste(base_name, "_CC", sep = ""))
     dotplot_name <- paste(plot_dir, "dotplot/", base_name, ".dotplot_CC.png", sep = "")
@@ -142,8 +127,3 @@ while (length(line <- readLines(con, n = 1)) > 0) {
     
 }
 ```
-
-```{r}
-
-```
-
