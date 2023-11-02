@@ -4,7 +4,7 @@
 # A sample output of the heatmaps is included.
 # INPUT: bigwig files from 3_bam_to_bigwig.sh 
 # and consensus peaks bed files from 5_consensus_peaks_2_of_3_macs2.sh.
-# OUTPUT: narrowPeak files that contain the peaks identified by MACS2.
+# OUTPUT: computeMatrix matrices and plotHeatmap heatmaps.
 
 # Tools and versions: deeptools/3.2.1
 
